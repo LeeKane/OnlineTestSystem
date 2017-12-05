@@ -1,0 +1,19 @@
+<nav class="teal" role="navigation">
+    <div class="nav-wrapper header-content">
+        <i class="large material-icons">clear_all</i>
+        <a id="logo-container" href="#" class="brand-logo white-text header-text">在线考试系统</a>
+    </div>
+</nav>
+
+
+<footer>
+        <div class="footer-content">
+            <div class="brand-logo teal-text">OTS</div>
+        </div>
+</footer>
+
+
+
+<script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+<script src="./static/js/materialize.js"></script>
+<script src="./static/js/init.js"></script>
