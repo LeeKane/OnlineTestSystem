@@ -42,9 +42,10 @@ public class UsersController {
     }
     @ResponseBody
     @RequestMapping(value = "/getAllJson",method = RequestMethod.GET)
-    public Map getAllJson(){
+    public Map getAllJson(HttpServletResponse response){
         Map<String, Object> result = new HashMap<String, Object>();
         result.put("json","sss");
+        response.setHeader("Access-Control-Allow-Origin", "*");
         return result;
     }
 
