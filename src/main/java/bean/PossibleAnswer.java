@@ -22,4 +22,9 @@ public class PossibleAnswer {
     public void setDescription(String description) {
         this.description = description;
     }
+
+    public PossibleAnswer(int num, String description) {
+        this.num = num;
+        this.description = description;
+    }
 }

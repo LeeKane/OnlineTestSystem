@@ -29,9 +29,9 @@ public class UsersController {
     @RequestMapping(value = "/showUser",method = RequestMethod.GET)
     public String showUser(@RequestParam("id") String id, ModelMap modelMap) {
         //1.调用BLL层的服务接口
-        user user = userService.getUser(id);
+//        user user = userService.getUser(id);
         //2.设置模型数据
-        modelMap.put("user",user);
+//        modelMap.put("user",user);
         //3.返回逻辑视图名称
         return "showUser";
     }

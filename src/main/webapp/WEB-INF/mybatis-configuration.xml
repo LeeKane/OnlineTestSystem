@@ -4,4 +4,8 @@
 
 <configuration>
 
+    <mappers>
+        <mapper resource="mapper/report.xml"></mapper>
+        <mapper resource="mapper/exam.xml"></mapper>
+    </mappers>
 </configuration>

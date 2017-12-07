@@ -1,15 +1,26 @@
 package bean;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Created by nick on 2017/12/6.
  */
 public class Question {
+    private int examid;
+
+    public int getExamid() {
+        return examid;
+    }
+
+    public void setExamid(int examid) {
+        this.examid = examid;
+    }
+
     private int num;
     private String description;
-    private PossibleAnswer answers[] = new PossibleAnswer[4];
-    private int correct;
-
-    private int index=0;
+    private List<PossibleAnswer> possibleAnswers = new ArrayList<>();
+    private String correct;
 
     public int getNum() {
         return num;
@@ -28,21 +39,22 @@ public class Question {
     }
 
     public void addPossibleAnswer(PossibleAnswer answer){
-        if (index < 4) {
-            answers[index] = answer;
-            index++;
-        }
+        possibleAnswers.add(answer);
     }
 
     public void clearAnswers(){
-        answers = new PossibleAnswer[4];
+        possibleAnswers = new ArrayList<>();
     }
 
-    public int getCorrect() {
+    public List<PossibleAnswer> getPossibleAnswers() {
+        return possibleAnswers;
+    }
+
+    public String getCorrect() {
         return correct;
     }
 
-    public void setCorrect(int correct) {
+    public void setCorrect(String correct) {
         this.correct = correct;
     }
 }

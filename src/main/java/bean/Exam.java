@@ -1,17 +1,34 @@
 package bean;
 
-import java.util.Date;
+import java.util.ArrayList;
+import java.sql.Date;
+import java.util.List;
 
 /**
  * Created by nick on 2017/12/6.
  */
 public class Exam {
+    private int courseid;
+
+    public int getCourseid() {
+        return courseid;
+    }
+
+    public void setCourseid(int courseid) {
+        this.courseid = courseid;
+    }
+
     private int examid;
     private String exam_title;
-    private int question_number;
+    private int question_num;
     private int question_score;
     private Date start_time;
     private Date end_time;
+    private List<Question> questions = new ArrayList<>();
+
+    public List<Question> getQuestions() {
+        return questions;
+    }
 
     public int getExamid() {
         return examid;
@@ -29,12 +46,12 @@ public class Exam {
         this.exam_title = exam_title;
     }
 
-    public int getQuestion_number() {
-        return question_number;
+    public int getQuestion_num() {
+        return question_num;
     }
 
-    public void setQuestion_number(int question_number) {
-        this.question_number = question_number;
+    public void setQuestion_num(int question_num) {
+        this.question_num = question_num;
     }
 
     public int getQuestion_score() {
@@ -59,5 +76,13 @@ public class Exam {
 
     public void setEnd_time(Date end_time) {
         this.end_time = end_time;
+    }
+
+    public void addQuestion(Question question){
+        questions.add(question);
+    }
+
+    public void clearQuestion(){
+        questions= new ArrayList<>();
     }
 }

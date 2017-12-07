@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="exam">
+    <insert id="insertExam" parameterType="bean.Exam" useGeneratedKeys="true" keyProperty="examid">
+        insert into exam(courseid, exam_title, question_num, question_score, start_time, end_time)  VALUE (#{courseid},#{exam_title},#{question_num},#{question_score},#{start_time},#{end_time})
+    </insert>
+
+    <insert id="insertQuestion" parameterType="bean.Question">
+        insert into question(examid, question_num, question_description, correct_answer) VALUE (#{examid},#{num},#{description},#{correct})
+    </insert>
+
+    <select id="maxId" resultType="int">
+        SELECT max(examid) From exam
+    </select>
+
+    <insert id="insertPossibleAnswer">
+        insert into possible_answer(examid, question_num, possible_answer_num, description) VALUE (#{examid},#{question_num},#{possible_answer_num},#{description})
+    </insert>
+</mapper>

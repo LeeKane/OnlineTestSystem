@@ -11,16 +11,3 @@ import bean.user;
  * Created by mac on 16/7/18.
  */
 
-    @RunWith(SpringJUnit4ClassRunner.class)
-    @ContextConfiguration("classpath*:/applicationContext.xml")
-    public class UserServiceImplTest {
-        @Autowired
-        private userService userService;
-
-        @Test
-        public void getUserTest(){
-            user user = userService.getUser("1");
-            Assert.assertNotNull(user);
-        }
-    }
-

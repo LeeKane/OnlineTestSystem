@@ -12,8 +12,8 @@ import java.util.List;
  * Created by mac on 16/7/17.
  */
 public class userServiceImpl implements userService {
-    @Autowired
-    private UserMapper userMapper;
+//    @Autowired
+//    private UserMapper userMapper;
 
 
     @Override
@@ -21,10 +21,10 @@ public class userServiceImpl implements userService {
         return null;
     }
 
-    @Override
-    public user getUser(String userId) {
-        return this.userMapper.getUser(userId);
-    }
+//    @Override
+//    public user getUser(String userId) {
+//        return this.userMapper.getUser(userId);
+//    }
 
 
 }

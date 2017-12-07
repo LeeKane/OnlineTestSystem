@@ -7,6 +7,11 @@ public class Course {
     private int courseid;
     private String course_name;
 
+    public Course(int courseid, String course_name) {
+        this.courseid = courseid;
+        this.course_name = course_name;
+    }
+
     public int getCourseid() {
         return courseid;
     }

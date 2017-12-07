@@ -9,6 +9,6 @@ import java.util.List;
  */
 public interface userService {
     public List<user> getAlluser();
-    public user getUser(String userId);
+//    public user getUser(String userId);
 }
 

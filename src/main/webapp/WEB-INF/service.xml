@@ -5,5 +5,8 @@
 
     <!-- Service层的设置 -->
     <bean id="userService" class="service.impl.userServiceImpl"/>
+    <bean id="examService" class="service.impl.examServiceImpl">
+        <property name="examDao" ref="examDao"></property>
+    </bean>
 
 </beans>

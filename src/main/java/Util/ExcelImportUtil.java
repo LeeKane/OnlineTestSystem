@@ -1,9 +1,6 @@
 package Util;
 
-import org.apache.poi.xssf.usermodel.XSSFCell;
-import org.apache.poi.xssf.usermodel.XSSFRow;
-import org.apache.poi.xssf.usermodel.XSSFSheet;
-import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.apache.poi.xssf.usermodel.*;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -17,17 +14,19 @@ public class ExcelImportUtil {
         List<List<String>> data = new ArrayList<>();
         try {
             XSSFWorkbook book = new XSSFWorkbook(fis);
+            XSSFCellStyle cellStyle = book.createCellStyle();
+            XSSFDataFormat format = book.createDataFormat();
+            cellStyle.setDataFormat(format.getFormat("@"));
             XSSFSheet sheet = book.getSheetAt(0);
             int rowNum =sheet.getLastRowNum();
-            System.out.println(rowNum+"rowNum是这么多");
             for(int i=0;i<=rowNum;i++){
                 XSSFRow row= sheet.getRow(i);
                 int cellNum = row.getLastCellNum();
                 List<String> rowContent = new ArrayList<>();
                 for(int j =0;j<cellNum;j++){
                     XSSFCell cell= row.getCell(j);
+                    cell.setCellStyle(cellStyle);
                     rowContent.add(getCellValue(cell));
-                    System.out.println(getCellValue(cell));
                 }
                 data.add(rowContent);
             }
