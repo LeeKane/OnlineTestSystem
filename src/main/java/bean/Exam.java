@@ -8,6 +8,7 @@ import java.util.List;
  * Created by nick on 2017/12/6.
  */
 public class Exam {
+    private int examid;
     private int courseid;
 
     public int getCourseid() {
@@ -18,7 +19,7 @@ public class Exam {
         this.courseid = courseid;
     }
 
-    private int examid;
+
     private String exam_title;
     private int question_num;
     private int question_score;
@@ -84,5 +85,9 @@ public class Exam {
 
     public void clearQuestion(){
         questions= new ArrayList<>();
+    }
+
+    public void addAll(List<Question> questions){
+        this.questions.addAll(questions);
     }
 }

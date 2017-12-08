@@ -42,12 +42,10 @@ public class ExamController {
 
     @ResponseBody
     @RequestMapping(value = "/uploadQuestion")
-    public Map postUser (@RequestParam("file") MultipartFile excel,HttpServletRequest request,HttpServletResponse response,@RequestParam("start_time") Date start_time,@RequestParam("end_time") Date end_time){
+    public Map uploadQuestion (@RequestParam("file") MultipartFile excel,HttpServletRequest request,HttpServletResponse response){
         Map<String, Object> map = new HashMap<>();
         String courseid= request.getParameter("courseid");
-        String exam_title=request.getParameter("exam_title");
-        String question_num = request.getParameter("question_num");
-        String question_score = request.getParameter("question_score");
+
 
         String path = "/data/wwwroot/default/data";
         //容错处理
@@ -65,12 +63,27 @@ public class ExamController {
             e.printStackTrace();
         }
 
-
-
         List<List<String>> data = ExcelImportUtil.parseExcel(fis);
-        Exam result=examService.createExam(data,courseid,exam_title,question_num,question_score,start_time,end_time);
+        int id=examService.uploadQuestions(data,courseid);
 
-        map.put("exam",result);
+        map.put("examid",id);
+
+        response.setHeader("Access-Control-Allow-Origin", "*");
+        return map;
+    }
+
+    @ResponseBody
+    @RequestMapping(value = "/examInfo")
+    public Map examInfo (@RequestParam("file") MultipartFile students,HttpServletRequest request,HttpServletResponse response,@RequestParam("start_time") Date start_time,@RequestParam("end_time") Date end_time){
+        Map<String, Object> map = new HashMap<>();
+        String examid= request.getParameter("examid");
+        String exam_title=request.getParameter("exam_title");
+        String question_num = request.getParameter("question_num");
+        String question_score = request.getParameter("question_score");
+
+        Exam exam = examService.updateExamInfo(examid,exam_title,question_num,question_score,start_time,end_time);
+
+        map.put("result",exam);
 
         response.setHeader("Access-Control-Allow-Origin", "*");
         return map;

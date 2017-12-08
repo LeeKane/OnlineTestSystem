@@ -1,12 +1,34 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="exam">
+    <resultMap id="exam" type="bean.Exam">
+        <result property="examid" column="examid"></result>
+        <result property="courseid" column="courseid"></result>
+        <result property="exam_title" column="exam_title"></result>
+        <result property="question_num" column="question_num"></result>
+        <result property="question_score" column="question_score"></result>
+        <result property="start_time" column="start_time"></result>
+        <result property="end_time" column="end_time"></result>
+    </resultMap>
+
+    <resultMap id="question" type="bean.Question">
+        <result property="examid" column="examid"></result>
+        <result property="question_num" column="question_num"></result>
+        <result property="question_description" column="question_description"></result>
+        <result property="correct_answer" column="correct_answer"></result>
+    </resultMap>
+
+    <resultMap id="possible_answer" type="bean.PossibleAnswer">
+        <result property="possible_answer_num" column="possible_answer_num"></result>
+        <result property="description" column="description"></result>
+    </resultMap>
+    
     <insert id="insertExam" parameterType="bean.Exam" useGeneratedKeys="true" keyProperty="examid">
         insert into exam(courseid, exam_title, question_num, question_score, start_time, end_time)  VALUE (#{courseid},#{exam_title},#{question_num},#{question_score},#{start_time},#{end_time})
     </insert>
 
     <insert id="insertQuestion" parameterType="bean.Question">
-        insert into question(examid, question_num, question_description, correct_answer) VALUE (#{examid},#{num},#{description},#{correct})
+        insert into question(examid, question_num, question_description, correct_answer) VALUE (#{examid},#{question_num},#{question_description},#{correct_answer})
     </insert>
 
     <select id="maxId" resultType="int">
@@ -16,4 +38,25 @@
     <insert id="insertPossibleAnswer">
         insert into possible_answer(examid, question_num, possible_answer_num, description) VALUE (#{examid},#{question_num},#{possible_answer_num},#{description})
     </insert>
+
+    <update id="updateExamInfo">
+        UPDATE exam SET exam.exam_title=#{exam_title},
+                        exam.question_num=#{question_num},
+                        exam.question_score=#{question_score},
+                        exam.start_time=#{start_time},
+                        exam.end_time=#{end_time}
+                    WHERE exam.examid=#{examid}
+    </update>
+
+    <select id="getExamById" resultMap="exam">
+        SELECT * FROM exam WHERE examid=#{examid}
+    </select>
+    
+    <select id="getAllQuestions" resultMap="question">
+        SELECT * FROM question WHERE examid=#{examid}
+    </select>
+
+    <select id="getAllPossibleAnswer" resultType="map">
+        SELECT possible_answer_num,description FROM possible_answer WHERE examid=#{examid} AND question_num=#{question_num}
+    </select>
 </mapper>

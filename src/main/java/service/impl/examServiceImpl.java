@@ -4,7 +4,6 @@ import bean.Exam;
 import bean.PossibleAnswer;
 import bean.Question;
 import dao.ExamDao;
-import dao.impl.ExamDaoImpl;
 import service.examService;
 
 import java.sql.Date;
@@ -25,14 +24,9 @@ public class examServiceImpl implements examService {
     private ExamDao examDao;
 
     @Override
-    public Exam createExam(List<List<String>> questions, String courseid, String exam_title, String question_num, String question_score, Date start_time, Date end_time) {
+    public int uploadQuestions(List<List<String>> questions, String courseid) {
         Exam exam = new Exam();
         exam.setCourseid(Integer.parseInt(courseid));
-        exam.setExam_title(exam_title);
-        exam.setQuestion_num(Integer.parseInt(question_num));
-        exam.setQuestion_score(Integer.parseInt(question_score));
-        exam.setStart_time(start_time);
-        exam.setEnd_time(end_time);
         for (int i =0;i<questions.size();i++) {
             List<String> question = questions.get(i);
             Question q = new Question();
@@ -40,9 +34,9 @@ public class examServiceImpl implements examService {
             String num = question.get(0);
             String description = question.get(1);
             String correct = question.get(6);
-            q.setNum((int)(Double.parseDouble(num)));
-            q.setDescription(description);
-            q.setCorrect(correct);
+            q.setQuestion_num((int)(Double.parseDouble(num)));
+            q.setQuestion_description(description);
+            q.setCorrect_answer(correct);
             for(int k=2;k<=5;k++){
                 PossibleAnswer pa = new PossibleAnswer(k-1,question.get(k));
                 System.out.print(pa.getDescription()+"\t");
@@ -54,7 +48,14 @@ public class examServiceImpl implements examService {
         }
 
         examDao.createExam(exam);
-//        exam.setExamid(id);
-        return exam;
+        return exam.getExamid();
+    }
+
+    @Override
+    public Exam updateExamInfo(String examid, String exam_title, String question_num, String question_score, Date start_time, Date end_time) {
+        int id = Integer.parseInt(examid);
+        int num = Integer.parseInt(question_num);
+        int score = Integer.parseInt(question_score);
+        return examDao.updateExam(id,exam_title,num,score,start_time,end_time);
     }
 }

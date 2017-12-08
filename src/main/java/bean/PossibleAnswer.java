@@ -4,15 +4,15 @@ package bean;
  * Created by nick on 2017/12/6.
  */
 public class PossibleAnswer {
-    private int num;
+    private int possible_answer_num;
     private String description;
 
-    public int getNum() {
-        return num;
+    public int getPossible_answer_num() {
+        return possible_answer_num;
     }
 
-    public void setNum(int num) {
-        this.num = num;
+    public void setPossible_answer_num(int possible_answer_num) {
+        this.possible_answer_num = possible_answer_num;
     }
 
     public String getDescription() {
@@ -24,7 +24,9 @@ public class PossibleAnswer {
     }
 
     public PossibleAnswer(int num, String description) {
-        this.num = num;
+        this.possible_answer_num = num;
         this.description = description;
     }
+
+
 }
