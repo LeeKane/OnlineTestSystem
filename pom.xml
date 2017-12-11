@@ -155,6 +155,14 @@
         </dependency>
         <!-- jstl -->
 
+        <!--javaMail-->
+        <dependency>
+            <groupId>javax.mail</groupId>
+            <artifactId>mail</artifactId>
+            <version>1.4</version>
+        </dependency>
+        <!--javaMail-->
+
         <!-- servlet -->
         <dependency>
             <groupId>javax.servlet</groupId>

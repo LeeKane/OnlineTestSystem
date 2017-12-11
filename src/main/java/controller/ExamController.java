@@ -17,6 +17,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.sql.Date;
+import java.sql.Timestamp;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -27,6 +28,8 @@ import static jdk.nashorn.internal.runtime.regexp.joni.Config.log;
 /**
  * Created by nick on 2017/12/6.
  */
+
+//TODO excel科学计数
 @Controller
 public class ExamController {
     @Autowired
@@ -74,7 +77,7 @@ public class ExamController {
 
     @ResponseBody
     @RequestMapping(value = "/examInfo")
-    public Map examInfo (@RequestParam("file") MultipartFile students,HttpServletRequest request,HttpServletResponse response,@RequestParam("start_time") Date start_time,@RequestParam("end_time") Date end_time){
+    public Map examInfo (HttpServletRequest request, HttpServletResponse response, @RequestParam("start_time") Timestamp start_time, @RequestParam("end_time") Timestamp end_time){
         Map<String, Object> map = new HashMap<>();
         String examid= request.getParameter("examid");
         String exam_title=request.getParameter("exam_title");
@@ -86,6 +89,34 @@ public class ExamController {
         map.put("result",exam);
 
         response.setHeader("Access-Control-Allow-Origin", "*");
+        return map;
+    }
+
+
+    @ResponseBody
+    @RequestMapping(value = "/uploadStudent")
+    public Map uploadStudent(@RequestParam("file") MultipartFile students,HttpServletRequest request,HttpServletResponse response){
+        Map<String,Object> map = new HashMap<>();
+        String examid= request.getParameter("examid");
+        String path = "/data/wwwroot/default/data";
+        //容错处理
+        File dir = new File(path);
+        if(!dir.exists()) {
+            dir.mkdirs();
+        }
+        String fileName = students.getOriginalFilename();//report.xls
+        String fileName2 = students.getName();//excelFile
+
+        InputStream fis = null;
+        try {
+            fis = students.getInputStream();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        List<List<String>> data = ExcelImportUtil.parseExcel(fis);
+
+        examService.uploadStudent(data,examid);
         return map;
     }
 }

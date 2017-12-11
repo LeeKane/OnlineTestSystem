@@ -8,4 +8,8 @@
         <property name="sqlSession" ref="sqlSession"></property>
     </bean>
 
+    <bean id="reportDao" class="dao.impl.ReportDaoImpl">
+        <property name="sqlSession" ref="sqlSession"></property>
+    </bean>
+
 </beans>

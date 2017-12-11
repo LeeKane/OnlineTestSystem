@@ -3,13 +3,16 @@ package dao.impl;
 import bean.Exam;
 import bean.PossibleAnswer;
 import bean.Question;
+import bean.Student;
 import dao.ExamDao;
 
 import javax.transaction.Transactional;
 import java.sql.Date;
+import java.sql.Timestamp;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * Created by nick on 2017/12/7.
@@ -38,7 +41,7 @@ public class ExamDaoImpl extends BaseDaoImpl implements ExamDao {
 
     @Transactional
     @Override
-    public Exam updateExam(int examid, String exam_title, int question_num, int question_score, Date start_time, Date end_time) {
+    public Exam updateExam(int examid, String exam_title, int question_num, int question_score, Timestamp start_time, Timestamp end_time) {
         Map<String,Object> map = new HashMap<>();
         map.put("examid",examid);
         map.put("exam_title",exam_title);
@@ -62,4 +65,13 @@ public class ExamDaoImpl extends BaseDaoImpl implements ExamDao {
         exam.addAll(questions);
         return exam;
     }
+
+    @Override
+    public void uploadStudent(Set<Student> students) {
+        for (Student student: students) {
+            sqlSession.insert("exam.insertStudent",student);
+        }
+    }
+
+
 }

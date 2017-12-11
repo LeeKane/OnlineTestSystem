@@ -59,4 +59,11 @@
     <select id="getAllPossibleAnswer" resultType="map">
         SELECT possible_answer_num,description FROM possible_answer WHERE examid=#{examid} AND question_num=#{question_num}
     </select>
+
+    <insert id="insertStudent" parameterType="bean.Student">
+        INSERT INTO student(studentid,student_name,email,grade,class_num)
+            SELECT #{studentid},#{student_name},#{email},#{grade},#{class_num}
+            WHERE NOT EXISTS
+              (SELECT studentid FROM student WHERE studentid = #{studentid});
+    </insert>
 </mapper>

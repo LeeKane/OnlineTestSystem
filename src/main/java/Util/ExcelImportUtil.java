@@ -18,17 +18,19 @@ public class ExcelImportUtil {
             XSSFDataFormat format = book.createDataFormat();
             cellStyle.setDataFormat(format.getFormat("@"));
             XSSFSheet sheet = book.getSheetAt(0);
-            int rowNum =sheet.getLastRowNum();
-            for(int i=0;i<=rowNum;i++){
+            int rowNum =sheet.getPhysicalNumberOfRows();
+            for(int i=0;i<rowNum;i++){
                 XSSFRow row= sheet.getRow(i);
-                int cellNum = row.getLastCellNum();
-                List<String> rowContent = new ArrayList<>();
-                for(int j =0;j<cellNum;j++){
-                    XSSFCell cell= row.getCell(j);
-                    cell.setCellStyle(cellStyle);
-                    rowContent.add(getCellValue(cell));
+                if (!isRowEmpty(row)) {
+                    int cellNum = row.getLastCellNum();
+                    List<String> rowContent = new ArrayList<>();
+                    for(int j =0;j<cellNum;j++){
+                        XSSFCell cell= row.getCell(j);
+                        cell.setCellStyle(cellStyle);
+                        rowContent.add(getCellValue(cell));
+                    }
+                    data.add(rowContent);
                 }
-                data.add(rowContent);
             }
 
         } catch (IOException e) {
@@ -64,5 +66,14 @@ public class ExcelImportUtil {
                 break;
         }
         return value;
+    }
+
+    private static boolean isRowEmpty(XSSFRow row) {
+        for (int c = row.getFirstCellNum(); c < row.getLastCellNum(); c++) {
+            XSSFCell cell = row.getCell(c);
+            if (cell != null && cell.getCellType() != XSSFCell.CELL_TYPE_BLANK)
+                return false;
+        }
+        return true;
     }
 }

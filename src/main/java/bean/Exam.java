@@ -1,5 +1,7 @@
 package bean;
 
+import java.sql.Time;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.sql.Date;
 import java.util.List;
@@ -23,8 +25,8 @@ public class Exam {
     private String exam_title;
     private int question_num;
     private int question_score;
-    private Date start_time;
-    private Date end_time;
+    private Timestamp start_time;
+    private Timestamp end_time;
     private List<Question> questions = new ArrayList<>();
 
     public List<Question> getQuestions() {
@@ -63,19 +65,19 @@ public class Exam {
         this.question_score = question_score;
     }
 
-    public Date getStart_time() {
+    public Timestamp getStart_time() {
         return start_time;
     }
 
-    public void setStart_time(Date start_time) {
+    public void setStart_time(Timestamp start_time) {
         this.start_time = start_time;
     }
 
-    public Date getEnd_time() {
+    public Timestamp getEnd_time() {
         return end_time;
     }
 
-    public void setEnd_time(Date end_time) {
+    public void setEnd_time(Timestamp end_time) {
         this.end_time = end_time;
     }
 

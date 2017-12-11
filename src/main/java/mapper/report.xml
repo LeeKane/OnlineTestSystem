@@ -1,7 +1,22 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="report">
-    <resultMap id="exam" type="bean.Exam">
 
-    </resultMap>
+    <insert id="createReport">
+        INSERT INTO report(studentid,examid)
+            SELECT #{studentid},#{examid}
+            WHERE NOT EXISTS
+              (SELECT studentid,examid FROM report WHERE studentid = #{studentid} AND examid=#{examid});
+    </insert>
+
+    <select id="getExamQuestionInfo" resultType="map" parameterType="String">
+        SELECT e.question_num as num,count(q.question_num) as coun FROM exam e,question q WHERE e.examid=#{examid} AND q.examid=#{examid}
+    </select>
+
+    <update id="updateReportInfo">
+        UPDATE report SET questions=#{questions},
+                          possible_answers=#{possible_answers},
+                          exam_code=#{exam_code}
+                      WHERE examid=#{examid} AND studentid=#{studentid}
+    </update>
 </mapper>
