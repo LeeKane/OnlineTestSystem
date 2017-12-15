@@ -1,4 +1,4 @@
-package Util;
+package util;
 
 import bean.Exam;
 import bean.Student;

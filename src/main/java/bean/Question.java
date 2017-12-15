@@ -8,6 +8,10 @@ import java.util.List;
  */
 public class Question {
     private int examid;
+    private int question_num;
+    private String question_description;
+    private List<PossibleAnswer> possibleAnswers = new ArrayList<>();
+    private String correct_answer;
 
     public int getExamid() {
         return examid;
@@ -16,11 +20,6 @@ public class Question {
     public void setExamid(int examid) {
         this.examid = examid;
     }
-
-    private int question_num;
-    private String question_description;
-    private List<PossibleAnswer> possibleAnswers = new ArrayList<>();
-    private String correct_answer;
 
     public int getQuestion_num() {
         return question_num;
@@ -38,20 +37,24 @@ public class Question {
         this.question_description = question_description;
     }
 
-    public void addPossibleAnswer(PossibleAnswer answer){
+    public void addPossibleAnswer(PossibleAnswer answer) {
         possibleAnswers.add(answer);
     }
 
-    public void clearAnswers(){
+    public void clearAnswers() {
         possibleAnswers = new ArrayList<>();
     }
 
-    public void addAll(List<PossibleAnswer> possibleAnswers){
+    public void addAll(List<PossibleAnswer> possibleAnswers) {
         this.possibleAnswers.addAll(possibleAnswers);
     }
 
     public List<PossibleAnswer> getPossibleAnswers() {
         return possibleAnswers;
+    }
+
+    public void setPossibleAnswers(List<PossibleAnswer> possibleAnswers) {
+        this.possibleAnswers = possibleAnswers;
     }
 
     public String getCorrect_answer() {

@@ -4,19 +4,35 @@
 
     <insert id="createReport">
         INSERT INTO report(studentid,examid)
-            SELECT #{studentid},#{examid}
-            WHERE NOT EXISTS
-              (SELECT studentid,examid FROM report WHERE studentid = #{studentid} AND examid=#{examid});
+        SELECT #{studentid},#{examid}
+        WHERE NOT EXISTS
+        (SELECT studentid,examid FROM report WHERE studentid = #{studentid} AND examid=#{examid});
     </insert>
 
     <select id="getExamQuestionInfo" resultType="map" parameterType="String">
-        SELECT e.question_num as num,count(q.question_num) as coun FROM exam e,question q WHERE e.examid=#{examid} AND q.examid=#{examid}
+        SELECT e.question_num as num,count(q.question_num) as coun FROM exam e,question q WHERE e.examid=#{examid} AND
+        q.examid=#{examid}
+    </select>
+
+    <select id="getID" resultType="map">
+        SELECT examid,studentid,questions,possible_answers FROM report WHERE exam_code=#{code}
+    </select>
+
+    <select id="getQuestionScore" resultType="int">
+        SELECT question_score FROM exam WHERE examid=#{examid}
     </select>
 
     <update id="updateReportInfo">
         UPDATE report SET questions=#{questions},
-                          possible_answers=#{possible_answers},
-                          exam_code=#{exam_code}
-                      WHERE examid=#{examid} AND studentid=#{studentid}
+        possible_answers=#{possible_answers},
+        exam_code=#{exam_code}
+        WHERE examid=#{examid} AND studentid=#{studentid}
     </update>
+
+    <update id="updateReportAnswer">
+        UPDATE report SET answers=#{answers},
+        score=#{score}
+        WHERE examid=#{examid} AND studentid=#{studentid}
+    </update>
+
 </mapper>

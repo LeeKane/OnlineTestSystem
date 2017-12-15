@@ -22,7 +22,7 @@
         <result property="possible_answer_num" column="possible_answer_num"></result>
         <result property="description" column="description"></result>
     </resultMap>
-    
+
     <insert id="insertExam" parameterType="bean.Exam" useGeneratedKeys="true" keyProperty="examid">
         insert into exam(courseid, exam_title, question_num, question_score, start_time, end_time)  VALUE (#{courseid},#{exam_title},#{question_num},#{question_score},#{start_time},#{end_time})
     </insert>
@@ -51,9 +51,13 @@
     <select id="getExamById" resultMap="exam">
         SELECT * FROM exam WHERE examid=#{examid}
     </select>
-    
+
     <select id="getAllQuestions" resultMap="question">
         SELECT * FROM question WHERE examid=#{examid}
+    </select>
+
+    <select id="getCorrectAnswer" resultType="String">
+        SELECT correct_answer FROM question WHERE examid=#{examid} AND question_num=#{question_num}
     </select>
 
     <select id="getAllPossibleAnswer" resultType="map">
