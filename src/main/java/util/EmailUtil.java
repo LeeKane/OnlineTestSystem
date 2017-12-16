@@ -6,6 +6,8 @@ import bean.Student;
 import javax.mail.*;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
+import javax.mail.internet.MimeUtility;
+import java.io.UnsupportedEncodingException;
 import java.util.Date;
 import java.util.Properties;
 
@@ -78,7 +80,7 @@ public class EmailUtil {
             InternetAddress[] address = {new InternetAddress(toEmail)};
             msg.setRecipients(Message.RecipientType.TO, address);
 
-            msg.setSubject(subject);
+            msg.setSubject(MimeUtility.encodeText(subject, "utf-8", "B"));
             msg.setSentDate(new Date());
             msg.setContent(content, "text/html;charset=utf-8");
 
@@ -86,6 +88,8 @@ public class EmailUtil {
             Transport.send(msg);
         } catch (MessagingException mex) {
             mex.printStackTrace();
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
         }
     }
 

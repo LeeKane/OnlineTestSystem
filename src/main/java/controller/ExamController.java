@@ -145,7 +145,7 @@ public class ExamController {
     }
 
     @ResponseBody
-    @RequestMapping(value = "/getExamReoprt", method = RequestMethod.GET)
+    @RequestMapping(value = "/getExamReport", method = RequestMethod.GET)
     public Object getExamReoprt(@RequestParam("examID") int examID, @RequestParam("studentID") Optional<Integer> studentID, HttpServletResponse response) {
         response.setHeader("Access-Control-Allow-Origin", "*");
         if (!studentID.isPresent())
