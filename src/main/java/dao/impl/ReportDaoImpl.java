@@ -1,6 +1,7 @@
 package dao.impl;
 
 import bean.Exam;
+import bean.PersonalReportInShort;
 import bean.Student;
 import bean.StudentExam;
 import dao.ReportDao;
@@ -8,9 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 import util.EmailUtil;
 import util.RandomUtil;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 /**
  * Created by nick on 2017/12/9.
@@ -70,9 +69,43 @@ public class ReportDaoImpl extends BaseDaoImpl implements ReportDao {
 
     }
 
+    @Override
+    public List<PersonalReportInShort> getScoreList(int examID) {
+        List<PersonalReportInShort> scoreList = new ArrayList<>();
+        List<Map<String, Object>> mList = sqlSession.selectList("report.getScoreList", examID);
+        for (Map<String, Object> m : mList) {
+            PersonalReportInShort report = new PersonalReportInShort();
+            int studentID = (int) m.get("studentid");
+            report.setStudentID(studentID);
+            report.setGrade((int) m.get("score"));
+            report.setStudentName(getStudentName(studentID));
+            scoreList.add(report);
+        }
+
+        return scoreList;
+    }
+
+    @Override
+    public Map<String, Object> getScoreAndAnswer(int examID, int studentID) {
+        Map<String, Object> map = new HashMap<>();
+        map.put("examid", examID);
+        map.put("studentid", studentID);
+        return sqlSession.selectOne("report.getScoreAndAnswer", map);
+    }
+
+    @Override
+    public String getStudentName(int studentID) {
+        return sqlSession.selectOne("report.getStudentName", studentID);
+    }
+
+    @Override
+    public String getExamTitle(int examID) {
+        return sqlSession.selectOne("report.getExamTitle", examID);
+    }
+
     @Transactional
     @Override
-    public StudentExam getIDByCode(String code) {
+    public StudentExam getIDByCode(String code) throws Exception{
         Map<String, Object> m = sqlSession.selectOne("report.getID", code);
         int examID = (int) m.get("examid");
         int studentid = (int) m.get("studentid");
@@ -84,6 +117,26 @@ public class ReportDaoImpl extends BaseDaoImpl implements ReportDao {
         exam.setStudentID(studentid);
         exam.setQuestionQuery(questionQuery);
         exam.setAnswerQuery(answerQuery);
+        return exam;
+    }
+
+    @Transactional
+    @Override
+    public StudentExam getQueryByIDs(int examID, int studentID) {
+        Map<String, Object> map = new HashMap<>();
+        map.put("examid", examID);
+        map.put("studentid", studentID);
+
+        Map<String, Object> m = sqlSession.selectOne("report.getQuery", map);
+        String questionQuery = (String) m.get("questions");
+        String answerQuery = (String) m.get("possible_answers");
+
+        StudentExam exam = new StudentExam();
+        exam.setExamID(examID);
+        exam.setStudentID(studentID);
+        exam.setQuestionQuery(questionQuery);
+        exam.setAnswerQuery(answerQuery);
+
         return exam;
     }
 

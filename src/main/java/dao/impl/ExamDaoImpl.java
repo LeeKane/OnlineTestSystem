@@ -94,5 +94,4 @@ public class ExamDaoImpl extends BaseDaoImpl implements ExamDao {
         }
     }
 
-
 }

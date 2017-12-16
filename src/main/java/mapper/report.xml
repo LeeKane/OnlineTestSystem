@@ -14,8 +14,28 @@
         q.examid=#{examid}
     </select>
 
+    <select id="getStudentName" resultType="String">
+        SELECT student_name FROM student WHERE studentid=#{studentID}
+    </select>
+
+    <select id="getExamTitle" resultType="String">
+        SELECT exam_title FROM exam WHERE examid=#{examID}
+    </select>
+
+    <select id="getScoreList" resultType="map">
+        SELECT studentid,score FROM report WHERE examid=#{examID}
+    </select>
+
+    <select id="getScoreAndAnswer" resultType="map">
+        SELECT score,answers,questions FROM report WHERE examid=#{examid} AND studentid = #{studentid}
+    </select>
+
     <select id="getID" resultType="map">
         SELECT examid,studentid,questions,possible_answers FROM report WHERE exam_code=#{code}
+    </select>
+
+    <select id="getQuery" resultType="map">
+        SELECT questions,possible_answers FROM report WHERE examid=#{examid} AND studentid = #{studentid}
     </select>
 
     <select id="getQuestionScore" resultType="int">

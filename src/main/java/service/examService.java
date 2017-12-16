@@ -2,6 +2,8 @@ package service;
 
 import bean.Answer;
 import bean.Exam;
+import bean.PersonalReport;
+import bean.Report;
 
 import java.sql.Timestamp;
 import java.util.List;
@@ -18,5 +20,11 @@ public interface examService {
 
     public int updateAnswers(int examID, int studentID, List<Answer> answerList);
 
-    public Exam getExamByCode(String code);
+    public Exam getExamByCode(String code) throws Exception;
+
+    public Exam getExamByIDs(int examID, int studentID) throws Exception;
+
+    public Report getOverallReport(int examID);
+
+    public PersonalReport getPersonalReport(int examID, int studentID) throws Exception;
 }

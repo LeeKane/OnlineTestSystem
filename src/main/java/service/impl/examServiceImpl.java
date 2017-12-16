@@ -1,16 +1,13 @@
 package service.impl;
 
-import util.TransUtil;
 import bean.*;
 import dao.ExamDao;
 import dao.ReportDao;
 import service.examService;
+import util.TransUtil;
 
 import java.sql.Timestamp;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 /**
  * Created by nick on 2017/12/6.
@@ -113,8 +110,50 @@ public class examServiceImpl implements examService {
 
 
     @Override
-    public Exam getExamByCode(String code) {
-        StudentExam studentExam = reportDao.getIDByCode(code);
+    public Exam getExamByCode(String code) throws Exception {
+        return getExam(reportDao.getIDByCode(code));
+    }
+
+    @Override
+    public Exam getExamByIDs(int examID, int studentID) throws Exception {
+        return getExam(reportDao.getQueryByIDs(examID, studentID));
+    }
+
+    @Override
+    public Report getOverallReport(int examID) {
+        Report report = new Report();
+        report.setExamid(examID);
+        report.setExamTitle(reportDao.getExamTitle(examID));
+        report.setScoreList(reportDao.getScoreList(examID));
+        return report;
+    }
+
+    @Override
+    public PersonalReport getPersonalReport(int examID, int studentID) throws Exception {
+        PersonalReport report = new PersonalReport();
+        report.setExam(getExamByIDs(examID, studentID));
+        report.setStudentID(studentID);
+        report.setStudentName(reportDao.getStudentName(studentID));
+        Map<String, Object> m = reportDao.getScoreAndAnswer(examID, studentID);
+        report.setScore((int) m.get("score"));
+
+        String answersQuery = (String) m.get("answers");
+        String questionsQuery = (String) m.get("questions");
+        String[] answersArray = answersQuery.split("-");
+        String[] questionsArray = questionsQuery.split("-");
+        List<Answer> answerList = new ArrayList<>();
+        for (int i = 0; i < answersArray.length; i++) {
+            Answer answer = new Answer();
+            answer.setQuestionID(Integer.parseInt(questionsArray[i]));
+            answer.setAnswer(Integer.parseInt(answersArray[i]));
+            answerList.add(answer);
+        }
+        report.setAnswers(answerList);
+
+        return report;
+    }
+
+    private Exam getExam(StudentExam studentExam) throws Exception{
         Exam exam = examDao.getExam(studentExam.getExamID());
         List<Question> allQuestionList = examDao.getQuestions(studentExam.getExamID());
         String questionQuery = studentExam.getQuestionQuery();

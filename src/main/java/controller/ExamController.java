@@ -1,6 +1,5 @@
 package controller;
 
-import util.ExcelImportUtil;
 import bean.Answer;
 import bean.Answers;
 import bean.Exam;
@@ -9,6 +8,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import service.examService;
+import util.ExcelImportUtil;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -19,6 +19,7 @@ import java.sql.Timestamp;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 /**
  * Created by nick on 2017/12/6.
@@ -132,17 +133,32 @@ public class ExamController {
 
     @ResponseBody
     @RequestMapping(value = "/getExam", method = RequestMethod.GET)
-    public Exam getExamByCode(@RequestParam("code") String code, HttpServletResponse response) {
-        Exam exam = examService.getExamByCode(code);
+    public Object getExamByCode(@RequestParam("code") String code, HttpServletResponse response) {
         response.setHeader("Access-Control-Allow-Origin", "*");
-        return exam;
+        try {
+            return examService.getExamByCode(code);
+        }catch (Exception e){
+            Map<String, String> map = new HashMap<>();
+            map.put("message","error");
+            return map;
+        }
     }
 
     @ResponseBody
-    @RequestMapping(value = "/getExamOverview", method = RequestMethod.GET)
-    public Exam getExamOverview(@RequestParam("examID") int examID, HttpServletResponse response) {
+    @RequestMapping(value = "/getExamReoprt", method = RequestMethod.GET)
+    public Object getExamReoprt(@RequestParam("examID") int examID, @RequestParam("studentID") Optional<Integer> studentID, HttpServletResponse response) {
         response.setHeader("Access-Control-Allow-Origin", "*");
-        return null;
+        if (!studentID.isPresent())
+            return examService.getOverallReport(examID);
+        else{
+            try {
+                return examService.getPersonalReport(examID, studentID.get());
+            }catch (Exception e){
+                Map<String, String> map = new HashMap<>();
+                map.put("message","error");
+                return map;
+            }
+        }
     }
 
 }
