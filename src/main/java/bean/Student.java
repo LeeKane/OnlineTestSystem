@@ -10,6 +10,9 @@ public class Student {
     private int grade;
     private int class_num;
 
+    public Student() {
+    }
+
     public Student(int studentid, String student_name, String email, int grade, int class_num) {
         this.studentid = studentid;
         this.student_name = student_name;
@@ -65,10 +68,10 @@ public class Student {
 
     @Override
     public boolean equals(Object obj) {
-        if(obj instanceof Student){
+        if (obj instanceof Student) {
             Student s = (Student) obj;
-            return this.studentid==s.getStudentid();
-        }else
+            return this.studentid == s.getStudentid();
+        } else
             return false;
     }
 }

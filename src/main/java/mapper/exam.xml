@@ -18,17 +18,27 @@
         <result property="correct_answer" column="correct_answer"></result>
     </resultMap>
 
+    <resultMap id="student" type="bean.Student">
+        <result property="studentid" column="studentid"></result>
+        <result property="student_name" column="student_name"></result>
+        <result property="email" column="email"></result>
+        <result property="grade" column="grade"></result>
+        <result property="class_num" column="class_num"></result>
+    </resultMap>
+
     <resultMap id="possible_answer" type="bean.PossibleAnswer">
         <result property="possible_answer_num" column="possible_answer_num"></result>
         <result property="description" column="description"></result>
     </resultMap>
 
     <insert id="insertExam" parameterType="bean.Exam" useGeneratedKeys="true" keyProperty="examid">
-        insert into exam(courseid, exam_title, question_num, question_score, start_time, end_time)  VALUE (#{courseid},#{exam_title},#{question_num},#{question_score},#{start_time},#{end_time})
+        insert into exam(courseid, exam_title, question_num, question_score, start_time, end_time) VALUE
+        (#{courseid},#{exam_title},#{question_num},#{question_score},#{start_time},#{end_time})
     </insert>
 
     <insert id="insertQuestion" parameterType="bean.Question">
-        insert into question(examid, question_num, question_description, correct_answer) VALUE (#{examid},#{question_num},#{question_description},#{correct_answer})
+        insert into question(examid, question_num, question_description, correct_answer) VALUE
+        (#{examid},#{question_num},#{question_description},#{correct_answer})
     </insert>
 
     <select id="maxId" resultType="int">
@@ -36,20 +46,25 @@
     </select>
 
     <insert id="insertPossibleAnswer">
-        insert into possible_answer(examid, question_num, possible_answer_num, description) VALUE (#{examid},#{question_num},#{possible_answer_num},#{description})
+        insert into possible_answer(examid, question_num, possible_answer_num, description) VALUE
+        (#{examid},#{question_num},#{possible_answer_num},#{description})
     </insert>
 
     <update id="updateExamInfo">
         UPDATE exam SET exam.exam_title=#{exam_title},
-                        exam.question_num=#{question_num},
-                        exam.question_score=#{question_score},
-                        exam.start_time=#{start_time},
-                        exam.end_time=#{end_time}
-                    WHERE exam.examid=#{examid}
+        exam.question_num=#{question_num},
+        exam.question_score=#{question_score},
+        exam.start_time=#{start_time},
+        exam.end_time=#{end_time}
+        WHERE exam.examid=#{examid}
     </update>
 
     <select id="getExamById" resultMap="exam">
         SELECT * FROM exam WHERE examid=#{examid}
+    </select>
+
+    <select id="getStudentById" resultMap="student">
+        SELECT * FROM student WHERE studentid=#{studentID}
     </select>
 
     <select id="getAllQuestions" resultMap="question">

@@ -57,6 +57,11 @@ public class ReportDaoImpl extends BaseDaoImpl implements ReportDao {
         map.put("answers", answerString);
         map.put("score", (int) score);
         sqlSession.update("report.updateReportAnswer", map);
+
+        Student student = sqlSession.selectOne("exam.getStudentById", studentID);
+        Exam exam = sqlSession.selectOne("exam.getExamById", examID);
+
+        EmailUtil.sendReport(student, exam, score);
     }
 
     @Override
@@ -105,7 +110,7 @@ public class ReportDaoImpl extends BaseDaoImpl implements ReportDao {
 
     @Transactional
     @Override
-    public StudentExam getIDByCode(String code) throws Exception{
+    public StudentExam getIDByCode(String code) throws Exception {
         Map<String, Object> m = sqlSession.selectOne("report.getID", code);
         int examID = (int) m.get("examid");
         int studentid = (int) m.get("studentid");
